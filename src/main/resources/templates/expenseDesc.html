@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <link th:rel="stylesheet" th:href="@{assets/bootstrap-slider/css/bootstrap-slider.css}"/>
+    <link th:rel="stylesheet" th:href="@{webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{webjars/font-awesome/5.11.2/css/all.css} "/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <a class="navbar-brand " href="#">Expense Tracker Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>  </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+
+        <!-- nav bar -->
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+
+        <!-- Search option -->
+        <form class="form-inline" th:action="@{/expenses}">
+            <input class="form-control mr-sm-2" type="text" name="keyword"  aria-label="Search" size="25"  required />
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            &nbsp;</form>
+        <form class="form-inline" th:action="@{/expenses}">
+            <input placeholder="Select date" type="date" name="keyword"  class="form-control">
+            <i class="fas fa-calendar input-prefix" tabindex=0></i>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+        <form th:action="@{/logout}"  method="post">
+            <input type="submit" value="Log out" />
+        </form>
+    </div>
+</nav>
+</div>
+</nav>
+
+
+        <table class = "table">
+            <thread class = "thead-dark">
+                <tr>
+                    <th> Expense</th>
+                    <th> description</th>
+
+                </tr>
+            </thread>
+            <tbody>
+            <tr th:each = "expense: ${expenses}" >
+                <td th:text = "${expense.name}"></td>
+                <td th:text = "${expense.description}"></td>
+
+            </tr>
+            </tbody>
+        </table>
+        <div>
+        </div>
+    </div>
+    </form>
+    </form>
+</div>
+</div>
+<script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:rel="stylesheet" th:src="@{assets/bootstrap-slider/bootstrap-slider.js}"></script>
+
+<script>
+    $("#priceRange").slider({});
+    $("#priceRange").on("slideStop", function (stopEvent) {
+        var range = stopEvent.value;
+        $("#rangeMin").val(range[0]);
+        $("#rangeMax").val(range[1]);
+
+        $.get("/expenses?min=" + range[0] + "&max=" + range[1], function (data) {
+            $("#expenses").html(data);
+        });
+    });
+</script>
+</div>
+</body>
+</html>
